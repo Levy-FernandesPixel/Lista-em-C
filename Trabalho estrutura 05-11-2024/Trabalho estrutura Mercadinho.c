@@ -2,6 +2,9 @@
 #include <stdlib.h>
 #include <string.h>
 
+
+//Nomes: Antonio Wagner Levy Lima Fernandes
+//Hélio Wesley da Silva Martins
 typedef struct fruta {
     int codigo;
     char nome[50];
@@ -25,14 +28,14 @@ void exibirMensagem(const char* msg) {
 Lista* cadastrarFruta(Lista* lista, int codigo, const char* nome, int quantidade, float preco) {
     for (Lista* temp = lista; temp; temp = temp->prox) {
         if (temp->fruta.codigo == codigo) {
-            exibirMensagem("Erro existe uma fruta com este código!");
+            exibirMensagem("Erro existe uma fruta com este código");
             return lista;
         }
     }
 
     Lista* novaFruta = malloc(sizeof(Lista));
     if (!novaFruta) {
-        exibirMensagem("Erro de alocação de memória!");
+        exibirMensagem("Erro de alocação de memória");
         return lista;
     }
 
@@ -93,33 +96,33 @@ Lista* excluirFruta(Lista* lista, int codigo) {
     else lista = temp->prox;
 
     free(temp);
-    exibirMensagem("Fruta excluída com sucesso!");
+    exibirMensagem("Fruta excluída");
     return lista;
 }
 
 void venderFruta(Lista* lista, int codigo, int quantidade) {
     Lista* fruta = buscarFruta(lista, codigo);
     if (!fruta) {
-        exibirMensagem("Fruta não encontrada!");
+        exibirMensagem("Fruta não encontrada");
         return;
     }
     
     if (fruta->fruta.quantidade < quantidade) {
-        exibirMensagem("Estoque insuficiente!");
+        exibirMensagem("Estoque insuficiente");
         return;
     }
 
     fruta->fruta.quantidade -= quantidade;
     FILE* arquivo = fopen("vendas.txt", "a");
     if (!arquivo) {
-        exibirMensagem("Erro ao abrir o arquivo de vendas!");
+        exibirMensagem("Erro ao abrir o arquivo de vendas");
         return;
     }
 
     fprintf(arquivo, "Venda - Código: %d, Nome: %s, Quantidade: %d, Preço Unitário: %.2f, Total: %.2f\n",
             fruta->fruta.codigo, fruta->fruta.nome, quantidade, fruta->fruta.preco, fruta->fruta.preco * quantidade);
     fclose(arquivo);
-    exibirMensagem("Venda realizada com sucesso!");
+    exibirMensagem("Venda realizada");
 }
 
 int main() {
@@ -137,7 +140,8 @@ int main() {
     lista = excluirFruta(lista, 1);
     listarFrutas(lista);
 
-    venderFruta(lista, 3, 10);
+    venderFruta(lista, 3, 5);
+    venderFruta(lista, 1, 3);
 
     return 0;
 }
